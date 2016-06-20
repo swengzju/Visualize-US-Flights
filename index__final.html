@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<div id="chartContainer">
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+  <script type="text/javascript">
+
+    /*
+    Create a svg element and set the size of the container
+    */
+
+    var svg = dimple.newSvg("#chartContainer", 1600, 800);
+
+    /*
+    Use D3 to load the tsv file
+    and then work on Dimple.js chart construction
+    */
+
+    d3.tsv("2000-2002_EDA.tsv", function (data) {          
+      var myChart = new dimple.chart(svg, data);
+      myChart.setBounds(120, 150, 1000, 400);
+      var x = myChart.addCategoryAxis("x", "Month"); 
+      var y = myChart.addMeasureAxis("y", "Number_of_flights");
+      x.addOrderRule(["Jan-00", "Feb-00", "Mar-00", "Apr-00", "May-00", "Jun-00", "Jul-00", "Aug-00", "Sep-00", "Oct-00", "Nov-00", "Dec-00", "Jan-01", "Feb-01", "Mar-01", "Apr-01", "May-01", "Jun-01", "Jul-01", "Aug-01", "Sep-01", "Oct-01", "Nov-01", "Dec-01", "Jan-02", "Feb-02", "Mar-02", "Apr-02", "May-02", "Jun-02", "Jul-02", "Aug-02", "Sep-02", "Oct-02", "Nov-02", "Dec-02"]);
+      myChart.addSeries("Type", dimple.plot.bar);
+      myChart.addLegend(50, 100, 1000, 300, "right");
+      myChart.draw();
+      y.titleShape.text("Number of Flights");
+      x.titleShape.text("Time");
+    });
+
+    /*
+    Add a title for the chart
+    */
+
+    svg.append("text")
+       .attr("x", 600)
+       .attr("y", 50)
+       .style("text-anchor", "middle")
+       .style("font-family", "sans-serif")
+       .text("Number of U.S. Commercial Flights in 2000 - 2002")
+  </script>
+</div>
+</html>
